@@ -39,23 +39,20 @@ int ft_unlock(t_philo *philo, int key)
     return (0);
 }
 
-void *do_something(void *d)
+void *ft_routine(void *d)
 {
     t_philo *philo = (t_philo *)d;
     int i;
     int j;
     
+    i = 1;
     j = 0;
-    if (philo->pt->number_of_times_epme)
-        i = 1;
-    else
-        i = -1;
     philo->begin = philo->pt->start;
     if (philo->id % 2 == 0)
     {
         if(check_do(philo, "is sleeping", 0))
             return (NULL);
-        j = ft_usleep_sleep1(philo);
+        j = ft_usleep(philo, philo->pt->time_to_sleep);
         if (j)
         {
             pthread_mutex_lock(&(philo->pt->death_m));
@@ -70,8 +67,6 @@ void *do_something(void *d)
     {
         if (check_do(philo, "is thinking", 0))
             break;
-        // if (philo->pt->stop)
-        //     break;
         if (ft_lock(philo))
             break;
         if (check_do(philo, "is eating", 1))
@@ -79,7 +74,7 @@ void *do_something(void *d)
             ft_unlock(philo, 0); 
             break;
         }
-        j = ft_usleep_eat(philo);
+        j = ft_usleep(philo, philo->pt->time_to_eat);
         if (j)
         {
             pthread_mutex_lock(&(philo->pt->death_m));
@@ -114,51 +109,21 @@ void *do_something(void *d)
             break;
         }
     }
-    //printf("ss: %d, epme: %d\n", philo->pt->simulation_stops, philo->pt->number_of_times_epme);
     philo->end = 1;
     return (NULL);
 }
 
-int main(int argc, char **argv)
+int     philo_init(t_philo *philo_data, t_times *philo_time)
 {
-    t_times philo_time;
-    t_philo *philo_data;
-    if (argc != 5 && argc != 6)
-    {
-        printf("The number of arguments must be either 4 or 5.\n");
-        return (1);
-    }
-
-    if (get_inpt(&philo_time, argv))
-    {
-        printf("Invalid argument\n");
-        return (1);
-    }
-    if(philo_time.number_of_philosophers == 1)
-    {
-        printf("We need at least two philos for this sumalition, aka. 2 forks.\n");
-        return (1);
-    }
-
-    philo_data = malloc(philo_time.number_of_philosophers * sizeof(t_philo));
-    if (!philo_data)
-        return (2);
-
-    // printf("nif; %d\n", philo_time.number_of_philosophers);
-    // printf("ttd: %zu\n", philo_time.time_to_die);
-    // printf("tte: %zu\n", philo_time.time_to_eat);
-    // printf("tts: %zu\n", philo_time.time_to_sleep);
-    // printf("xx: %zu\n", philo_time.number_of_times_epme);
-
     int i;
 
     i = 0;
-    while(i < philo_time.number_of_philosophers)
+    while(i < philo_time->number_of_philosophers)
     {
         philo_data[i].id = i + 1;
         philo_data[i].begin = 0;
         philo_data[i].end = 0;
-        philo_data[i].pt = &philo_time;
+        philo_data[i].pt = philo_time;
         if (pthread_mutex_init(&philo_data[i].fork, NULL))
         {
             free(philo_data);
@@ -166,43 +131,53 @@ int main(int argc, char **argv)
         }
         i++;
     }
-
     i = 0;
-    philo_time.start = ft_gettimeofday();
-    while (i < philo_time.number_of_philosophers)
+    philo_time->start = ft_gettimeofday();
+    while (i < philo_time->number_of_philosophers)
     {
-        if (pthread_create(&philo_data[i].thread, NULL, do_something, &philo_data[i]))
+        if (pthread_create(&philo_data[i].thread, NULL, ft_routine, &philo_data[i]))
         {
             free(philo_data);
-            return (3);
+            return (2);
         }
         i++;
     }
+    return (0);
+}
 
+t_philo *check_input(t_times *philo_time, int argc, char **argv)
+{
+    t_philo *philo_data;
+
+    if (argc != 5 && argc != 6)
+    {
+        printf("The number of arguments must be either 4 or 5.\n");
+        return (NULL);
+    }
+
+    if (get_inpt(philo_time, argv))
+    {
+        printf("Invalid argument\n");
+        return (NULL);
+    }
+    philo_data = malloc(philo_time->number_of_philosophers * sizeof(t_philo));
+    return (philo_data);
+}
+
+int main(int argc, char **argv)
+{
+    t_times philo_time;
+    t_philo *philo_data;
+
+    philo_data = check_input(&philo_time, argc, argv);
+    if (!philo_data)
+        return (1);
+    if (philo_init(philo_data, &philo_time))
+        return (2);
     ft_check(philo_data);
-    if (philo_time.stop && philo_time.stop != 1337)
-        printf("%-5ld %-2d died\n", (ft_gettimeofday()- philo_time.start), philo_time.stop);
-
-    i = 0;
-    while (i < philo_time.number_of_philosophers)
-    {
-        if (pthread_join(philo_data[i].thread, NULL))
-        {
-            free(philo_data);
-            return (3);
-        }
-        i++;
-    }
-    i = 0;
-    while (i < philo_time.number_of_philosophers)
-    {
-        if (pthread_mutex_destroy(&(philo_data->fork)))
-        {
-            free(philo_data);
-            return (4);
-        }
-        i++;
-    }
-    free(philo_data);
+    if(ft_died(philo_data))
+        return(3);
+    if(ft_free(philo_time, philo_data))
+        return (4);
     return (0);
 }

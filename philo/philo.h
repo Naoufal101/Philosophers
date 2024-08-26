@@ -37,9 +37,11 @@ size_t ft_gettimeofday();
 int check_do(t_philo *philo, char *str, char update);
 int	ft_usleep_eat(t_philo *philo);
 int	ft_usleep_sleep(t_philo *philo);
-int	ft_usleep_sleep1(t_philo *philo);
+int	ft_usleep(t_philo *philo, size_t tt);
 
 void ft_check(t_philo *philo_data);
+int ft_died(t_philo *philo);
+int ft_free(t_times philo_time, t_philo *philo_data);
 int ft_unlock(t_philo *philo, int key);
 int ft_lock(t_philo *philo);
 #endif

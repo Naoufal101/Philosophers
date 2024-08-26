@@ -1,5 +1,20 @@
 #include "philo.h"
 
+int ft_died(t_philo *philo)
+{
+    if (philo->pt->stop && philo->pt->stop != 1337)
+        printf("%-5ld %-2d died\n", (ft_gettimeofday()- philo->pt->start), philo->pt->stop);
+    if(philo->pt->stop && philo->pt->number_of_philosophers == 1)
+    {
+        if (pthread_mutex_unlock(&(philo[0].fork)))
+        {
+            free(philo);
+            return (1);
+        }
+    }
+    return (0);
+}
+
 void ft_check(t_philo *philo)
 {
     int i;
@@ -49,7 +64,9 @@ int	ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 		num = num * 10 + (str[i++] - '0');
     if (str[i])
+    {
         return (-1);
+    }
 	return (num * sign);
 }
 
@@ -79,5 +96,33 @@ char get_inpt(t_times *philo_time, char **argv)
     pthread_mutex_init(&(philo_time->death_m), NULL);
     pthread_mutex_init(&(philo_time->ss_m), NULL);
     philo_time->simulation_stops = 0;
+    return (0);
+}
+
+int ft_free(t_times philo_time, t_philo *philo_data)
+{
+    int i;
+    
+    i = 0;
+    while (i < philo_time.number_of_philosophers)
+    {
+        if (pthread_join(philo_data[i].thread, NULL))
+        {
+            free(philo_data);
+            return (3);
+        }
+        i++;
+    }
+    i = 0;
+    while (i < philo_time.number_of_philosophers)
+    {
+        if (pthread_mutex_destroy(&(philo_data->fork)))
+        {
+            free(philo_data);
+            return (4);
+        }
+        i++;
+    }
+    free(philo_data);
     return (0);
 }
