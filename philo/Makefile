@@ -1,5 +1,5 @@
 NAME	:= philo
-FILES   := philo.c philo_utils.c phio_utils_II.c
+FILES   := philo.c philo_utils.c philo_utils_II.c ft_routine.c
 CFLAGS	:= -Wextra -Wall -Werror
 HEADER  := philo.h
 OFILES  := $(FILES:.c=.o)
