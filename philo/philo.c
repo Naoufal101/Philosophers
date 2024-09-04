@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:23 by nhimad            #+#    #+#             */
-/*   Updated: 2024/08/26 19:41:48 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/08/28 19:47:38 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int	ft_unlock(t_philo *philo, int key)
 	if (philo->id != philo->pt->nmb_of_philo)
 		pthread_mutex_unlock(&((philo + 1)->fork));
 	else
-		pthread_mutex_unlock(&((philo - (philo->pt->nmb_of_philo
-						- 1))->fork));
+		pthread_mutex_unlock(&((philo - (philo->pt->nmb_of_philo - 1))->fork));
 	return (0);
 }
 
