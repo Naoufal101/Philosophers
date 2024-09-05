@@ -1,4 +1,4 @@
-NAME	:= philo
+NAME	:= philo_bonus
 FILES   := philo.c philo_utils.c philo_utils_II.c ft_routine.c
 CFLAGS	:= -Wextra -Wall -Werror
 HEADER  := philo.h

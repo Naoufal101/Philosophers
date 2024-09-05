@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:20 by nhimad            #+#    #+#             */
-/*   Updated: 2024/08/26 19:06:17 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/04 18:36:44 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,28 +57,27 @@ int	ft_eat(t_philo *philo, char key, char key2)
 	return (0);
 }
 
-void	ft_meals_counter(t_philo *philo)
+void	ft_meals_counter(t_philo *philo, int *i)
 {
-	int	i;
-
-	i = 1;
 	if (philo->pt->number_of_times_epme)
 	{
-		if (i == philo->pt->number_of_times_epme)
+		if (*i == philo->pt->number_of_times_epme)
 		{
 			pthread_mutex_lock(&(philo->pt->ss_m));
 			philo->pt->stop_sim++;
 			pthread_mutex_unlock(&(philo->pt->ss_m));
 		}
-		i++;
+		(*i)++;
 	}
 }
 
 void	*ft_routine(void *d)
 {
 	t_philo	*philo;
+	int		meals_counter;
 
 	philo = (t_philo *)d;
+	meals_counter = 1;
 	philo->begin = philo->pt->start;
 	if (philo->id % 2 == 0)
 	{
@@ -91,7 +90,7 @@ void	*ft_routine(void *d)
 			break ;
 		if (ft_eat(philo, 1, 1))
 			break ;
-		ft_meals_counter(philo);
+		ft_meals_counter(philo, &meals_counter);
 		if (ft_sleep(philo, 0, 0))
 			break ;
 	}
