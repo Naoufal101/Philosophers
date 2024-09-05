@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:26 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/04 19:48:18 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/05 13:33:27 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ char	get_inpt(t_philos *philo_time, char **argv)
 	philo_time->stop = 0;
 	sem_unlink(START);
 	philo_time->sim_start = sem_open(START, O_CREAT, 0666, 0);
-	sem_unlink(PRINTT);
-	philo_time->print_s = sem_open(PRINTT, O_CREAT, 0666, 1);
+	sem_unlink(PRINT);
+	philo_time->print_s = sem_open(PRINT, O_CREAT, 0666, 1);
 	sem_unlink(MEALS);
 	philo_time->meal_s = sem_open(MEALS, O_CREAT, 0666, 0);
 	sem_unlink(FORKS);

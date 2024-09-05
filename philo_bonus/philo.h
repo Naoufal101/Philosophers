@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:29 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/04 19:47:24 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/05 13:32:48 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 # define MEALS "/meal_sem"
 # define FORKS "/forks_sem"
-# define PRINTT "/print_sem"
+# define PRINT "/print_sem"
 # define START "/start_simulation"
 
 typedef struct s_philos

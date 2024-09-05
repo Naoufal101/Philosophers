@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:23 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/04 19:50:44 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/05 16:48:47 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,27 @@ int	main(int argc, char **argv)
 	philo_init(&philo_data);
 
 	pthread_create(&meals, NULL, ft_meals, &philo_data);
+	pthread_detach(meals);
 	while((waitpid(-1, NULL, 0)) != -1)
-		printf("est ci\n"), philo_data.stop = philo_data.nmb_of_philo;
+		philo_data.stop = philo_data.nmb_of_philo, sem_post(philo_data.meal_s);;
+	
+	if (sem_close(philo_data.forks) == -1)
+		exit(5);
+	if (sem_close(philo_data.meal_s) == -1)
+		exit(5);
+	if (sem_close(philo_data.print_s) == -1)
+		exit(5);
+	if (sem_close(philo_data.sim_start) == -1)
+		exit(5);
+
+	if (sem_unlink(FORKS) == -1)
+		exit(5);
+	if (sem_unlink(MEALS) == -1)
+		exit(5);
+	if (sem_unlink(PRINT) == -1)
+		exit(5);
+	if (sem_unlink(FORKS) == -1)
+		exit(5);
 	
 	// ft_check(philo_data);
 	// if (ft_died(philo_data))
