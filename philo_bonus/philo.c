@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:23 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/08 17:57:42 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/08 19:24:47 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,6 @@ int	main(int argc, char **argv)
 	philo_init(&philo_data);
 	pthread_create(&meals, NULL, ft_meals, &philo_data);
 	pthread_detach(meals);
-	while ((waitpid(-1, NULL, 0)) != -1)
-	{
-		philo_data.stop = philo_data.nmb_of_philo;
-		sem_post(philo_data.meal_s);
-	}
 	ft_free(&philo_data);
 	exit(0);
 }

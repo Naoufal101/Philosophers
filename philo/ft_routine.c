@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:20 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/04 18:36:44 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/08 19:04:23 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,15 @@ void	*ft_routine(void *d)
 	}
 	philo->end = 1;
 	return (NULL);
+}
+
+int	ft_mutex_init(t_times *philo_time)
+{
+	if (pthread_mutex_init(&(philo_time->print_m), NULL))
+		return (1);
+	if (pthread_mutex_init(&(philo_time->death_m), NULL))
+		return (1);
+	if (pthread_mutex_init(&(philo_time->ss_m), NULL))
+		return (1);
+	return (0);
 }

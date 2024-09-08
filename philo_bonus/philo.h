@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:29 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/08 17:56:48 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/08 19:09:45 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ size_t		ft_gettimeofday(void);
 void		check_do(t_philos *philo, char *str, char update);
 void		ft_usleep(t_philos *philo, size_t tt, int key);
 void		*ft_check(void *p);
-int			ft_free(t_philos *philo_data);
+void		ft_free(t_philos *philo_data);
 // int					ft_died(t_philo *philo);
 // int					ft_free(t_times philo_time, t_philo *philo_data);
 // void				ft_unlock(t_philo *philo, int key);

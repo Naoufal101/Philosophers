@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:14 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/08 17:56:18 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/08 19:25:06 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,13 @@ void	ft_usleep(t_philos *philo, size_t tt, int key)
 		usleep(500);
 }
 
-int	ft_free(t_philos *philo_data)
+void	ft_free(t_philos *philo_data)
 {
+	while ((waitpid(-1, NULL, 0)) != -1)
+	{
+		philo_data->stop = philo_data->nmb_of_philo;
+		sem_post(philo_data->meal_s);
+	}
 	if (sem_close(philo_data->forks) == -1)
 		exit(5);
 	if (sem_close(philo_data->meal_s) == -1)

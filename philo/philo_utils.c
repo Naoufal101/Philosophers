@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:26 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/08 17:06:23 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/08 18:59:11 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,31 +96,14 @@ int	ft_atoi(const char *str)
 	return (num * sign);
 }
 
-char	get_inpt(t_times *philo_time, char **argv)
+int	ft_unlock(t_philo *philo, int key)
 {
-	int	i;
-	int	array[5];
-
-	i = 1;
-	array[4] = 0;
-	while (argv[i])
-	{
-		array[i - 1] = ft_atoi(argv[i]);
-		if (array[i - 1] <= 0)
-			return (1);
-		i++;
-	}
-	if (i == 6 && array[4] == 0)
+	pthread_mutex_unlock(&((philo)->fork));
+	if (key)
 		return (1);
-	philo_time->stop = 0;
-	philo_time->nmb_of_philo = array[0];
-	philo_time->time_to_die = array[1];
-	philo_time->time_to_eat = array[2];
-	philo_time->time_to_sleep = array[3];
-	philo_time->number_of_times_epme = array[4];
-	pthread_mutex_init(&(philo_time->print_m), NULL);
-	pthread_mutex_init(&(philo_time->death_m), NULL);
-	pthread_mutex_init(&(philo_time->ss_m), NULL);
-	philo_time->stop_sim = 0;
+	if (philo->id != philo->pt->nmb_of_philo)
+		pthread_mutex_unlock(&((philo + 1)->fork));
+	else
+		pthread_mutex_unlock(&((philo - (philo->pt->nmb_of_philo - 1))->fork));
 	return (0);
 }

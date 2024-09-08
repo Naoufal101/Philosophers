@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:26 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/08 17:51:12 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/08 19:14:02 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,19 @@
 
 void	ft_sem_init(t_philos *philo_time)
 {
-	if (sem_unlink(START) == -1)
-		exit(7);
+	sem_unlink(START);
 	philo_time->sim_start = sem_open(START, O_CREAT, 0666, 0);
 	if (philo_time->sim_start == SEM_FAILED)
 		exit(8);
-	if (sem_unlink(PRINT) == -1)
-		exit(7);
+	sem_unlink(PRINT);
 	philo_time->print_s = sem_open(PRINT, O_CREAT, 0666, 1);
 	if (philo_time->print_s == SEM_FAILED)
 		exit(8);
-	if (sem_unlink(MEALS) == -1)
-		exit(7);
+	sem_unlink(MEALS);
 	philo_time->meal_s = sem_open(MEALS, O_CREAT, 0666, 0);
 	if (philo_time->meal_s == SEM_FAILED)
 		exit(8);
-	if (sem_unlink(FORKS) == -1)
-		exit(7);
+	sem_unlink(FORKS);
 	philo_time->forks = sem_open(FORKS, O_CREAT, 0666,
 			philo_time->nmb_of_philo);
 	if (philo_time->forks == SEM_FAILED)

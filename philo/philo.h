@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:29 by nhimad            #+#    #+#             */
-/*   Updated: 2024/08/26 19:39:00 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/08 19:05:48 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct s_philo
 
 void				*ft_routine(void *d);
 char				get_inpt(t_times *philo_time, char **argv);
+int					ft_atoi(const char *str);
+int					ft_mutex_init(t_times *philo_time);
 size_t				ft_gettimeofday(void);
 int					check_do(t_philo *philo, char *str, char update);
 int					ft_usleep(t_philo *philo, size_t tt, int key);
