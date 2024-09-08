@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:26 by nhimad            #+#    #+#             */
-/*   Updated: 2024/08/26 19:22:59 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/08 17:06:23 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 int	ft_died(t_philo *philo)
 {
-	if (philo->pt->stop && philo->pt->stop != 1337)
+	if (philo->pt->stop > 0)
+	{
+		usleep(1500);
+		pthread_mutex_lock(&(philo->pt->print_m));
 		printf("%-5ld %-2d died\n", (ft_gettimeofday() - philo->pt->start),
 			philo->pt->stop);
+		pthread_mutex_unlock(&(philo->pt->print_m));
+	}
 	if (philo->pt->stop && philo->pt->nmb_of_philo == 1)
 	{
 		if (pthread_mutex_unlock(&(philo[0].fork)))
@@ -55,13 +60,13 @@ void	ft_check(t_philo *philo)
 				return ;
 			if (philo->pt->stop_sim == philo->pt->nmb_of_philo)
 			{
-				philo->pt->stop = 1337;
+				philo->pt->stop = -1;
 				return ;
 			}
 			i++;
 		}
 		i = 0;
-		usleep(1000);
+		usleep(500);
 	}
 }
 

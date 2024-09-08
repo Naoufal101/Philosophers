@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:14 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/03 15:29:06 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/08 17:56:18 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ size_t	ft_gettimeofday(void)
 {
 	struct timeval	time;
 
-	if (gettimeofday(&time, NULL) == -1)
-		printf("........ERORR........\n");
+	gettimeofday(&time, NULL);
 	return ((time.tv_sec * 1000 + time.tv_usec / 1000));
 }
 
@@ -41,34 +40,27 @@ void	ft_usleep(t_philos *philo, size_t tt, int key)
 	else
 		ttd = philo->time_to_die - philo->time_to_eat;
 	start = ft_gettimeofday();
-	while ((ft_gettimeofday() - start) < tt && (ft_gettimeofday() - start) < ttd)
+	while ((ft_gettimeofday() - start) < tt && (ft_gettimeofday()
+			- start) < ttd)
 		usleep(500);
 }
 
-// int	ft_free(t_times philo_time, t_philo *philo_data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < philo_time.nmb_of_philo)
-// 	{
-// 		if (pthread_join(philo_data[i].thread, NULL))
-// 		{
-// 			free(philo_data);
-// 			return (3);
-// 		}
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (i < philo_time.nmb_of_philo)
-// 	{
-// 		if (pthread_mutex_destroy(&(philo_data->fork)))
-// 		{
-// 			free(philo_data);
-// 			return (4);
-// 		}
-// 		i++;
-// 	}
-// 	free(philo_data);
-// 	return (0);
-// }
+int	ft_free(t_philos *philo_data)
+{
+	if (sem_close(philo_data->forks) == -1)
+		exit(5);
+	if (sem_close(philo_data->meal_s) == -1)
+		exit(5);
+	if (sem_close(philo_data->print_s) == -1)
+		exit(5);
+	if (sem_close(philo_data->sim_start) == -1)
+		exit(5);
+	if (sem_unlink(FORKS) == -1)
+		exit(5);
+	if (sem_unlink(MEALS) == -1)
+		exit(5);
+	if (sem_unlink(PRINT) == -1)
+		exit(5);
+	if (sem_unlink(START) == -1)
+		exit(5);
+}

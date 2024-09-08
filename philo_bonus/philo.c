@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:23 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/05 16:48:47 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/08 17:57:42 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	philo_init(t_philos *philo)
 		philo->id = i + 1;
 		pid = fork();
 		if (pid == -1)
-			exit (4);
+			exit(4);
 		if (!pid)
 			ft_routine(philo);
 		philo->array[i] = pid;
@@ -40,18 +40,19 @@ void	check_input(t_philos *philo_time, int argc, char **argv)
 	if (argc != 5 && argc != 6)
 	{
 		printf("The number of arguments must be either 4 or 5.\n");
-		exit (1);
+		exit(1);
 	}
 	if (get_inpt(philo_time, argv))
 	{
 		printf("Invalid argument\n");
-		exit (1);
+		exit(1);
 	}
 }
+
 void	*ft_meals(void *p)
 {
 	t_philos	*philo;
-	int i;
+	int			i;
 
 	i = 0;
 	philo = p;
@@ -68,38 +69,17 @@ void	*ft_meals(void *p)
 int	main(int argc, char **argv)
 {
 	t_philos	philo_data;
-	pthread_t   meals;
+	pthread_t	meals;
 
 	check_input(&philo_data, argc, argv);
 	philo_init(&philo_data);
-
 	pthread_create(&meals, NULL, ft_meals, &philo_data);
 	pthread_detach(meals);
-	while((waitpid(-1, NULL, 0)) != -1)
-		philo_data.stop = philo_data.nmb_of_philo, sem_post(philo_data.meal_s);;
-	
-	if (sem_close(philo_data.forks) == -1)
-		exit(5);
-	if (sem_close(philo_data.meal_s) == -1)
-		exit(5);
-	if (sem_close(philo_data.print_s) == -1)
-		exit(5);
-	if (sem_close(philo_data.sim_start) == -1)
-		exit(5);
-
-	if (sem_unlink(FORKS) == -1)
-		exit(5);
-	if (sem_unlink(MEALS) == -1)
-		exit(5);
-	if (sem_unlink(PRINT) == -1)
-		exit(5);
-	if (sem_unlink(FORKS) == -1)
-		exit(5);
-	
-	// ft_check(philo_data);
-	// if (ft_died(philo_data))
-	// 	return (3);
-	// if (ft_free(philo_time, philo_data))
-	// 	return (4);
-	// return (0);
+	while ((waitpid(-1, NULL, 0)) != -1)
+	{
+		philo_data.stop = philo_data.nmb_of_philo;
+		sem_post(philo_data.meal_s);
+	}
+	ft_free(&philo_data);
+	exit(0);
 }
