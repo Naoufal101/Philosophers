@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:14 by nhimad            #+#    #+#             */
-/*   Updated: 2024/08/27 09:19:00 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/08 17:29:11 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ size_t	ft_gettimeofday(void)
 {
 	struct timeval	time;
 
-	if (gettimeofday(&time, NULL) == -1)
-		printf("........ERORR........\n");
+	gettimeofday(&time, NULL);
 	return ((time.tv_sec * 1000 + time.tv_usec / 1000));
 }
 

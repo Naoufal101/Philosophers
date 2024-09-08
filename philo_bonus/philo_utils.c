@@ -6,46 +6,51 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:26 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/05 13:33:27 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/08 19:14:02 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// int	ft_died(t_philo *philo)
-// {
-// 	if (philo->pt->stop && philo->pt->stop != 1337)
-// 		printf("%-5ld %-2d died\n", (ft_gettimeofday() - philo->pt->start),
-// 			philo->pt->stop);
-// 	if (philo->pt->stop && philo->pt->nmb_of_philo == 1)
-// 	{
-// 		if (pthread_mutex_unlock(&(philo[0].fork)))
-// 		{
-// 			free(philo);
-// 			return (1);
-// 		}
-// 	}
-// 	return (0);
-// }
+void	ft_sem_init(t_philos *philo_time)
+{
+	sem_unlink(START);
+	philo_time->sim_start = sem_open(START, O_CREAT, 0666, 0);
+	if (philo_time->sim_start == SEM_FAILED)
+		exit(8);
+	sem_unlink(PRINT);
+	philo_time->print_s = sem_open(PRINT, O_CREAT, 0666, 1);
+	if (philo_time->print_s == SEM_FAILED)
+		exit(8);
+	sem_unlink(MEALS);
+	philo_time->meal_s = sem_open(MEALS, O_CREAT, 0666, 0);
+	if (philo_time->meal_s == SEM_FAILED)
+		exit(8);
+	sem_unlink(FORKS);
+	philo_time->forks = sem_open(FORKS, O_CREAT, 0666,
+			philo_time->nmb_of_philo);
+	if (philo_time->forks == SEM_FAILED)
+		exit(8);
+}
 
 void	ft_ckeck_death(t_philos *philo)
 {
-	size_t ttd;
+	size_t	ttd;
 
 	ttd = philo->time_to_die;
 	if (philo->begin && ((ft_gettimeofday() - philo->begin) >= ttd))
 	{
 		sem_wait(philo->print_s);
 		printf("%-5ld %-2d died\n", (ft_gettimeofday() - philo->start),
-		philo->id);
-		exit (1);
+			philo->id);
+		exit(1);
 	}
 }
 
 void	*ft_check(void *p)
 {
-	t_philos *philo;
-	
+	t_philos	*philo;
+
 	philo = p;
 	while (1)
 	{
@@ -56,9 +61,9 @@ void	*ft_check(void *p)
 
 int	ft_atoi(const char *str)
 {
-	int				i;
-	int				sign;
-	long			num;
+	int		i;
+	int		sign;
+	long	num;
 
 	i = 0;
 	sign = 1;
@@ -104,13 +109,6 @@ char	get_inpt(t_philos *philo_time, char **argv)
 	philo_time->meals_counter = 1;
 	philo_time->begin = 0;
 	philo_time->stop = 0;
-	sem_unlink(START);
-	philo_time->sim_start = sem_open(START, O_CREAT, 0666, 0);
-	sem_unlink(PRINT);
-	philo_time->print_s = sem_open(PRINT, O_CREAT, 0666, 1);
-	sem_unlink(MEALS);
-	philo_time->meal_s = sem_open(MEALS, O_CREAT, 0666, 0);
-	sem_unlink(FORKS);
-	philo_time->forks = sem_open(FORKS, O_CREAT, 0666, philo_time->nmb_of_philo);
+	ft_sem_init(philo_time);
 	return (0);
 }

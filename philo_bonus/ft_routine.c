@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:20 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/05 17:00:32 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/08 17:33:31 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	ft_print_fork(t_philos *philo)
 {
 	sem_wait(philo->forks);
 	sem_wait(philo->print_s);
-	printf("%-5ld %-2d has taken a fork\n", (ft_gettimeofday()
-			- philo->start), philo->id);
+	printf("%-5ld %-2d has taken a fork\n", (ft_gettimeofday() - philo->start),
+		philo->id);
 	sem_post(philo->print_s);
 }
 
@@ -47,15 +47,15 @@ void	ft_meals_counter(t_philos *philo)
 	}
 }
 
-void	ft_routine(t_philos	*philo)
+void	ft_routine(t_philos *philo)
 {
-	pthread_t thread;
-	
+	pthread_t	thread;
+
 	philo->begin = philo->start;
 	if (pthread_create(&thread, NULL, ft_check, philo))
-		exit (3);
+		exit(3);
 	if (pthread_detach(thread))
-		exit (4);
+		exit(4);
 	sem_wait(philo->sim_start);
 	if (philo->id % 2 == 0)
 		ft_sleep(philo, 0, 1);
