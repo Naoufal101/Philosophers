@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:14 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/08 17:29:11 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/09 10:35:35 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_lock(t_philo *philo)
 		return (1);
 	}
 	pthread_mutex_lock(&(philo->pt->print_m));
-	printf("%-5ld %-2d has taken a fork\n", (ft_gettimeofday()
+	printf("%-5lu %-2d has taken a fork\n", (ft_gettimeofday()
 			- philo->pt->start), philo->id);
 	pthread_mutex_unlock(&(philo->pt->print_m));
 	if (philo->id != philo->pt->nmb_of_philo)
@@ -34,7 +34,7 @@ int	ft_lock(t_philo *philo)
 		return (1);
 	}
 	pthread_mutex_lock(&(philo->pt->print_m));
-	printf("%-5ld %-2d has taken a fork\n", (ft_gettimeofday()
+	printf("%-5lu %-2d has taken a fork\n", (ft_gettimeofday()
 			- philo->pt->start), philo->id);
 	pthread_mutex_unlock(&(philo->pt->print_m));
 	return (0);
@@ -61,7 +61,7 @@ int	check_do(t_philo *philo, char *str, char update)
 		return (1);
 	}
 	pthread_mutex_lock(&(philo->pt->print_m));
-	printf("%-5ld %-2d %s\n", (ft_gettimeofday() - philo->pt->start), philo->id,
+	printf("%-5lu %-2d %s\n", (ft_gettimeofday() - philo->pt->start), philo->id,
 		str);
 	pthread_mutex_unlock(&(philo->pt->print_m));
 	if (update)
@@ -104,7 +104,7 @@ int	ft_free(t_times philo_time, t_philo *philo_data)
 	i = 0;
 	while (i < philo_time.nmb_of_philo)
 	{
-		if (pthread_mutex_destroy(&(philo_data->fork)))
+		if (pthread_mutex_destroy(&(philo_data[i].fork)))
 		{
 			free(philo_data);
 			return (4);

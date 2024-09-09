@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:26 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/08 18:59:11 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/09 10:10:49 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_died(t_philo *philo)
 	{
 		usleep(1500);
 		pthread_mutex_lock(&(philo->pt->print_m));
-		printf("%-5ld %-2d died\n", (ft_gettimeofday() - philo->pt->start),
+		printf("%-5lu %-2d died\n", (ft_gettimeofday() - philo->pt->start),
 			philo->pt->stop);
 		pthread_mutex_unlock(&(philo->pt->print_m));
 	}
@@ -73,27 +73,25 @@ void	ft_check(t_philo *philo)
 int	ft_atoi(const char *str)
 {
 	int				i;
-	int				sign;
 	unsigned long	num;
 
 	i = 0;
-	sign = 1;
 	num = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '-' || str[i] == '+')
+	while ((*str >= 9 && *str <= 13) || *str == 32)
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
+		if (*str == '-')
+			return (-1);
+		str++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	while (str[i] >= '0' && str[i] <= '9' && num <= LONG_MAX)
 		num = num * 10 + (str[i++] - '0');
-	if (str[i])
+	if (str[i] || num > LONG_MAX)
 	{
 		return (-1);
 	}
-	return (num * sign);
+	return (num);
 }
 
 int	ft_unlock(t_philo *philo, int key)

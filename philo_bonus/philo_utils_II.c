@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:14 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/08 19:25:06 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/09 11:48:12 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ size_t	ft_gettimeofday(void)
 void	check_do(t_philos *philo, char *str, char update)
 {
 	sem_wait(philo->print_s);
-	printf("%-5ld %-2d %s\n", (ft_gettimeofday() - philo->start), philo->id,
+	printf("%-5lu %-2d %s\n", (ft_gettimeofday() - philo->start), philo->id,
 		str);
 	sem_post(philo->print_s);
 	if (update)
@@ -45,8 +45,10 @@ void	ft_usleep(t_philos *philo, size_t tt, int key)
 		usleep(500);
 }
 
-void	ft_free(t_philos *philo_data)
+void	ft_free(t_philos *philo_data, pthread_t	*meals)
 {
+	if (pthread_detach(*meals))
+		exit (5);
 	while ((waitpid(-1, NULL, 0)) != -1)
 	{
 		philo_data->stop = philo_data->nmb_of_philo;

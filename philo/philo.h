@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:29 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/08 19:05:48 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/09 09:38:40 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <limits.h>
 # include <unistd.h>
 
 typedef struct s_times
