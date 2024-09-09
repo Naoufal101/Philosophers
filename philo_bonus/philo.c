@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:23 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/08 19:24:47 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/09 11:47:12 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	philo_init(t_philos *philo)
 		philo->id = i + 1;
 		pid = fork();
 		if (pid == -1)
+		{
+			ft_fork_free(philo);
 			exit(4);
+		}
 		if (!pid)
 			ft_routine(philo);
 		philo->array[i] = pid;
@@ -74,7 +77,6 @@ int	main(int argc, char **argv)
 	check_input(&philo_data, argc, argv);
 	philo_init(&philo_data);
 	pthread_create(&meals, NULL, ft_meals, &philo_data);
-	pthread_detach(meals);
-	ft_free(&philo_data);
+	ft_free(&philo_data, &meals);
 	exit(0);
 }

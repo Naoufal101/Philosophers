@@ -6,7 +6,6 @@ OFILES  := $(FILES:.c=.o)
 
 all: $(NAME)
 
-
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -o $@ -c $<
 

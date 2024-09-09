@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:29 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/08 19:09:45 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/09 11:47:45 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define FORKS "/forks_sem"
 # define PRINT "/print_sem"
 # define START "/start_simulation"
+# define MAX_PHILO 2510
 
 typedef struct s_philos
 {
@@ -37,7 +38,7 @@ typedef struct s_philos
 	int		meals_counter;
 	int		stop;
 	int		id;
-	pid_t	array[500];
+	pid_t	array[MAX_PHILO];
 	size_t	start;
 	size_t	begin;
 	sem_t	*print_s;
@@ -52,10 +53,6 @@ size_t		ft_gettimeofday(void);
 void		check_do(t_philos *philo, char *str, char update);
 void		ft_usleep(t_philos *philo, size_t tt, int key);
 void		*ft_check(void *p);
-void		ft_free(t_philos *philo_data);
-// int					ft_died(t_philo *philo);
-// int					ft_free(t_times philo_time, t_philo *philo_data);
-// void				ft_unlock(t_philo *philo, int key);
-// int					ft_lock(t_philo *philo);
-// int					ft_print_fork(t_philo *philo, int key);
+void		ft_free(t_philos *philo_data, pthread_t	*meals);
+void		ft_fork_free(t_philos *philo);
 #endif

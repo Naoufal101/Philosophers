@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:20 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/08 17:33:31 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/09 10:10:49 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_print_fork(t_philos *philo)
 {
 	sem_wait(philo->forks);
 	sem_wait(philo->print_s);
-	printf("%-5ld %-2d has taken a fork\n", (ft_gettimeofday() - philo->start),
+	printf("%-5lu %-2d has taken a fork\n", (ft_gettimeofday() - philo->start),
 		philo->id);
 	sem_post(philo->print_s);
 }

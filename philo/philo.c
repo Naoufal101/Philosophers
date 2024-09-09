@@ -6,7 +6,7 @@
 /*   By: nhimad <nhimad@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 19:01:23 by nhimad            #+#    #+#             */
-/*   Updated: 2024/09/08 19:01:25 by nhimad           ###   ########.fr       */
+/*   Updated: 2024/09/09 10:12:21 by nhimad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	get_inpt(t_times *philo_time, char **argv)
 {
-	int	i;
-	int	array[5];
+	int		i;
+	long	array[5];
 
 	i = 1;
 	array[4] = 0;
@@ -26,8 +26,6 @@ char	get_inpt(t_times *philo_time, char **argv)
 			return (1);
 		i++;
 	}
-	if (i == 6 && array[4] == 0)
-		return (1);
 	philo_time->stop = 0;
 	philo_time->nmb_of_philo = array[0];
 	philo_time->time_to_die = array[1];
